@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# F1 Strategy Analytics Dashboard
 
-## Getting Started
+An end-to-end data analytics web application designed to explore, analyze, and visualize Formula 1 race performance and strategy.
 
-First, run the development server:
+This project transforms raw race data into actionable insights by combining data processing, metric engineering, and interactive visualizations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Project Overview
+
+The F1 Strategy Analytics Dashboard enables users to:
+- Explore Formula 1 race sessions by season
+- Compare driver performance across key metrics
+- Analyze race strategies through tyre usage and stint patterns
+- Visualize position changes and race progression
+
+The application is built to simulate a real-world analytics workflow — from data ingestion to insight delivery — in an interactive dashboard format.
+
+---
+
+## 📊 Data Source
+
+Data is retrieved from the **OpenF1 API**, which provides real-time and historical Formula 1 telemetry data.
+
+### Key datasets used:
+- **Sessions** → race events, session types, timestamps
+- **Drivers** → driver identity and team information
+- **Laps** → lap times used for pace and consistency analysis
+- **Positions** → race positions over time for trend analysis
+- **Stints** → tyre usage data for strategy breakdown
+
+> ⚠️ Note: Data availability is limited to API coverage (primarily 2023 onwards)
+
+---
+
+## 🧠 Analytical Approach
+
+### 1. Performance Metrics
+- **Average Pace**  
+  Mean lap time per driver to measure overall speed
+
+- **Consistency (Standard Deviation)**  
+  Measures lap-to-lap variation to evaluate driving stability
+
+- **Position Change**  
+  Difference between starting and finishing position
+
+---
+
+### 2. Strategy Analysis
+- **Tyre Stint Segmentation**
+  - Identifies tyre phases per driver
+  - Calculates stint length and compound usage
+
+- **Strategy Summary**
+  - Converts raw stint data into readable race strategy insights
+
+---
+
+### 3. Race Insights Engine
+Custom logic generates insights such as:
+- Fastest driver in session
+- Most consistent driver
+- Biggest position gain
+- Key race observations based on combined metrics
+
+---
+
+## 📈 Features
+
+- 🔎 Session exploration by year, country, and session type  
+- 👥 Driver comparison (up to 3 drivers)  
+- ⚡ Performance metrics (pace & consistency)  
+- 🏁 Position change analysis  
+- 🛞 Tyre strategy visualization (stint timelines)  
+- 📉 Position trend charts over race duration  
+- 🧾 Automated race insights generation  
+- 🧭 Guided user flow with smooth UI navigation  
+- ⚠️ Smart handling of missing/unsupported data  
+
+---
+
+## 🖥️ Tech Stack
+
+**Frontend**
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+
+**Data & Visualization**
+- OpenF1 API
+- Recharts
+
+**Architecture**
+- REST API routes (Next.js)
+- Client-side data fetching
+- Modular analytics functions (`lib/analytics.ts`)
+
+---
+
+## ⚙️ System Design
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+User Interaction → API Routes → OpenF1 API
+↓
+Data Processing Layer
+↓
+Analytics Functions
+↓
+Visualization Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔄 Workflow
 
-To learn more about Next.js, take a look at the following resources:
+1. User selects a year and loads available sessions  
+2. Sessions are filtered by country and session type  
+3. User selects a session → driver data is fetched  
+4. User selects up to 3 drivers  
+5. Application computes:
+   - pace
+   - consistency
+   - position changes
+   - tyre strategies  
+6. Insights and charts are rendered dynamically  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Key Highlights
 
-## Deploy on Vercel
+- Implements **real-world analytics concepts**:
+  - feature engineering
+  - statistical analysis
+  - data transformation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Demonstrates **end-to-end data pipeline thinking**
+- Focuses on **user-friendly insight delivery**, not just raw data
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚧 Limitations
+
+- Data coverage depends on OpenF1 API (mainly 2023+)
+- Some sessions may not have complete telemetry data
+- No caching layer implemented (real-time fetching)
+
+---
+
+## 👤 Author
+
+**Danish Aiman**
+
+---
+
+## ⭐ Future Improvements
+
+- Add caching for faster performance
+- Include qualifying & sprint session analysis
+- Expand metrics (sector times, pit stop analysis)
+- Add machine learning for race outcome prediction
+- Improve mobile responsiveness
+```
