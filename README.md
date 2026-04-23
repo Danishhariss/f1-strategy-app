@@ -16,6 +16,8 @@ The F1 Strategy Analytics Dashboard enables users to:
 
 The application is built to simulate a real-world analytics workflow — from data ingestion to insight delivery — in an interactive dashboard format.
 
+Link to access: https://f1-strategy-app-steel.vercel.app/
+
 ---
 
 ## 📊 Data Source
