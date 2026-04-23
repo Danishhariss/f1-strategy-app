@@ -12,17 +12,15 @@ import {
 } from "recharts";
 import { formatCompound } from "@/lib/analytics";
 
-export type StrategyStint = {
-  driverName: string;
-  stint_number: number;
-  compound: string;
-  lap_start: number;
-  lap_end: number;
-  stint_length: number | null;
-};
-
-type StrategyTimelineChartProps = {
-  stints: StrategyStint[];
+type Props = {
+  stints: {
+    driverName: string;
+    stint_number: number;
+    compound: string;
+    lap_start: number;
+    lap_end: number;
+    stint_length: number | null;
+  }[];
 };
 
 type ChartRow = {
@@ -43,9 +41,9 @@ const compoundColors: Record<string, string> = {
   UNKNOWN: "#6b7280",
 };
 
-export default function StrategyTimelineChart({
-  stints,
-}: StrategyTimelineChartProps) {
+export default function StrategyTimelineChart(props: Props) {
+  const { stints } = props;
+
   if (!stints || stints.length === 0) {
     return null;
   }

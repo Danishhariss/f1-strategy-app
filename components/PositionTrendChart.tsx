@@ -2,7 +2,6 @@
 
 import {
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -48,7 +47,8 @@ export default function PositionTrendChart({ drivers, positions }: Props) {
       )
       .sort(
         (a, b) =>
-          new Date(a.date as string).getTime() - new Date(b.date as string).getTime()
+          new Date(a.date as string).getTime() -
+          new Date(b.date as string).getTime()
       );
 
     driverPositions.forEach((item, index) => {
@@ -74,27 +74,19 @@ export default function PositionTrendChart({ drivers, positions }: Props) {
   return (
     <div className="border border-zinc-700 rounded-lg p-4 bg-black">
       <h3 className="text-lg font-semibold mb-2">Race Position Trend</h3>
-      <p className="text-sm text-gray-400 mb-4">
-        Comparing selected drivers
-      </p>
+      <p className="text-sm text-gray-400 mb-4">Comparing selected drivers</p>
 
       <div className="w-full h-[360px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
-            margin={{ top: 10, right: 30, left: 10, bottom: 10 }}
+            margin={{ top: 10, right: 30, left: 10, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
             <XAxis
               dataKey="progression"
               stroke="#a1a1aa"
               tick={{ fill: "#a1a1aa" }}
-              label={{
-                value: "Race Progression",
-                position: "insideBottom",
-                offset: -5,
-                fill: "#a1a1aa",
-              }}
             />
             <YAxis
               reversed
@@ -121,7 +113,6 @@ export default function PositionTrendChart({ drivers, positions }: Props) {
                 return `Progress Step ${label} • ${row.timeLabel}`;
               }}
             />
-            <Legend wrapperStyle={{ color: "#e4e4e7" }} />
             {drivers.map((driver, index) => (
               <Line
                 key={driver.driverNumber}
@@ -137,7 +128,33 @@ export default function PositionTrendChart({ drivers, positions }: Props) {
         </ResponsiveContainer>
       </div>
 
-      <p className="text-xs text-gray-500 mt-3">
+      <p className="mt-3 text-center text-xs text-gray-400">
+        Race Progression
+      </p>
+
+      <div className="mt-4">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
+          {drivers.map((driver, index) => {
+            const color = lineColors[index % lineColors.length];
+
+            return (
+              <div
+                key={driver.driverNumber}
+                className="rounded-full border px-3 py-1"
+                style={{
+                  borderColor: color,
+                  color,
+                  backgroundColor: `${color}22`,
+                }}
+              >
+                {driver.driverName}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <p className="text-xs text-gray-500 mt-4">
         Lower position numbers are better. This chart uses time-ordered position
         updates to approximate race progression.
       </p>
