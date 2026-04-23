@@ -346,7 +346,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        <section className="mb-10 rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-8 shadow-2xl">
+        <section className="relative mb-10 rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-8 shadow-2xl">
           <div className="max-w-3xl">
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
               Formula 1 Dashboard
@@ -373,6 +373,11 @@ export default function Home() {
               strategy through pace, stability, tyre usage, and position trends.
             </p>
           </div>
+
+
+          <span className="absolute bottom-4 right-4 text-[10px] text-zinc-600 md:hidden opacity-60 animate-pulse">
+            Rotate for better view ↻
+          </span>
         </section>
 
         <section className="mb-10 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-6">
