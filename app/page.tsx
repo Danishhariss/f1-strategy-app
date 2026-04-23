@@ -362,9 +362,11 @@ export default function Home() {
               <a
                 href="https://www.linkedin.com/in/muhammaddanishaimanhariss/"
                 target="_blank"
-                className="font-semibold bg-gradient-to-r from-red-500 via-red-400 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_0_6px_rgba(239,68,68,0.6)] transition hover:brightness-125"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 font-semibold bg-gradient-to-r from-red-500 via-red-400 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_0_6px_rgba(239,68,68,0.6)] transition hover:underline hover:brightness-125"
               >
                 Danish Aiman
+                <span className="text-xs opacity-70">↗</span>
               </a>
             </div>
 
