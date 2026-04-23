@@ -5,7 +5,6 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -13,7 +12,7 @@ import {
 } from "recharts";
 import { formatCompound } from "@/lib/analytics";
 
-type Stint = {
+export type StrategyStint = {
   driverName: string;
   stint_number: number;
   compound: string;
@@ -22,12 +21,13 @@ type Stint = {
   stint_length: number | null;
 };
 
-type Props = {
-  stints: Stint[];
+type StrategyTimelineChartProps = {
+  stints: StrategyStint[];
 };
 
 type ChartRow = {
-  name: string;
+  axisLabel: string;
+  driverName: string;
   start: number;
   length: number;
   compound: string;
@@ -43,34 +43,35 @@ const compoundColors: Record<string, string> = {
   UNKNOWN: "#6b7280",
 };
 
-export default function StrategyTimelineChart({ stints }: Props) {
-  if (!stints.length) {
+export default function StrategyTimelineChart({
+  stints,
+}: StrategyTimelineChartProps) {
+  if (!stints || stints.length === 0) {
     return null;
   }
 
   const data: ChartRow[] = stints.map((stint) => ({
-    name: `${stint.driverName} • Phase ${stint.stint_number}`,
+    axisLabel: `Phase ${stint.stint_number}`,
+    driverName: stint.driverName,
     start: Math.max(0, stint.lap_start - 1),
     length: stint.stint_length ?? 0,
     compound: stint.compound,
     label: formatCompound(stint.compound),
   }));
 
-  return (
-    <div className="border border-zinc-700 rounded-lg p-4 bg-black">
-      <h3 className="text-lg font-semibold mb-2">
-        Tyre Strategy Across Race Laps
-      </h3>
-      <p className="text-sm text-gray-400 mb-4">
-        Comparing selected drivers
-      </p>
+  const uniqueDrivers = [...new Set(stints.map((stint) => stint.driverName))];
 
-      <div className="w-full h-[420px]">
+  return (
+    <div className="rounded-lg border border-zinc-700 bg-black p-4">
+      <h3 className="mb-2 text-lg font-semibold">Tyre Strategy Across Race Laps</h3>
+      <p className="mb-4 text-sm text-gray-400">Comparing selected drivers</p>
+
+      <div className="h-[420px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             layout="vertical"
             data={data}
-            margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
+            margin={{ top: 10, right: 30, left: 20, bottom: 30 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
             <XAxis
@@ -80,16 +81,16 @@ export default function StrategyTimelineChart({ stints }: Props) {
               label={{
                 value: "Race Lap Number",
                 position: "insideBottom",
-                offset: -5,
+                offset: -10,
                 fill: "#a1a1aa",
               }}
             />
             <YAxis
-              dataKey="name"
+              dataKey="axisLabel"
               type="category"
               stroke="#a1a1aa"
               tick={{ fill: "#e4e4e7" }}
-              width={180}
+              width={100}
             />
             <Tooltip
               contentStyle={{
@@ -107,16 +108,17 @@ export default function StrategyTimelineChart({ stints }: Props) {
               labelFormatter={(_, payload) => {
                 if (!payload || !payload.length) return "";
                 const row = payload[0].payload as ChartRow;
-                return `${row.name} • ${row.label}`;
+                return `${row.driverName} • ${row.axisLabel} • ${row.label}`;
               }}
             />
-            <Legend wrapperStyle={{ color: "#e4e4e7" }} />
-            <Bar dataKey="start" stackId="a" fill="transparent" name="Offset" />
-            <Bar dataKey="length" stackId="a" name="Tyre Phase Length">
+            <Bar dataKey="start" stackId="a" fill="transparent" />
+            <Bar dataKey="length" stackId="a">
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={compoundColors[entry.compound?.toUpperCase()] || "#6b7280"}
+                  fill={
+                    compoundColors[entry.compound?.toUpperCase()] || "#6b7280"
+                  }
                 />
               ))}
             </Bar>
@@ -124,15 +126,30 @@ export default function StrategyTimelineChart({ stints }: Props) {
         </ResponsiveContainer>
       </div>
 
-      <p className="text-xs text-gray-500 mt-3">
-        Each bar shows when a tyre phase starts and how many laps it lasts during the race.
+      <div className="mt-6">
+        <p className="mb-2 text-xs text-gray-500">Selected drivers</p>
+        <div className="flex flex-wrap gap-3 text-sm">
+          {uniqueDrivers.map((driver) => (
+            <div
+              key={driver}
+              className="rounded-full border border-zinc-700 px-3 py-1 text-gray-300"
+            >
+              {driver}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-4 text-xs text-gray-500">
+        Each bar shows when a tyre phase starts and how many laps it lasts during
+        the race.
       </p>
 
-      <div className="flex flex-wrap gap-3 mt-4 text-sm">
+      <div className="mt-4 flex flex-wrap gap-3 text-sm">
         {Object.entries(compoundColors).map(([compound, color]) => (
           <div key={compound} className="flex items-center gap-2">
             <span
-              className="inline-block w-3 h-3 rounded-sm border border-zinc-700"
+              className="inline-block h-3 w-3 rounded-sm border border-zinc-700"
               style={{ backgroundColor: color }}
             />
             <span className="text-gray-300">{formatCompound(compound)}</span>

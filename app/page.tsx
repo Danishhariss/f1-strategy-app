@@ -360,7 +360,7 @@ export default function Home() {
             <div className="mt-3 flex items-center gap-2 text-sm text-zinc-500">
               <span>Created by</span>
               <a
-                href="https://linkedin.com/in/your-link"
+                href="https://www.linkedin.com/in/muhammaddanishaimanhariss/"
                 target="_blank"
                 className="font-semibold bg-gradient-to-r from-red-500 via-red-400 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_0_6px_rgba(239,68,68,0.6)] transition hover:brightness-125"
               >
